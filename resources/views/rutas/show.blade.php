@@ -2,65 +2,109 @@
 
 @section('titulo', $ruta->titulo)
 
-@section('content')
-    <article class="entity-detail">
-        <header class="page-header">
-            <div>
-                <h1>{{ $ruta->titulo }}</h1>
-                <p class="text-muted">
-                    {{ $ruta->region->nombre }} · {{ ucfirst($ruta->categoria) }} · {{ ucfirst($ruta->dificultad) }}
-                </p>
+@section('hero')
+    <section class="detail-hero">
+        <div class="detail-hero-inner">
+            <nav class="breadcrumbs">
+                <a href="{{ url('/') }}">Inicio</a>
+                <x-icon name="chevron-right" class="icon icon-sm" />
+                <a href="{{ route('rutas.index') }}">Rutas</a>
+                <x-icon name="chevron-right" class="icon icon-sm" />
+                <span class="current">{{ $ruta->titulo }}</span>
+            </nav>
+
+            <div class="tags">
+                <span class="tag tag-primary">{{ ucfirst($ruta->categoria) }}</span>
+                <span class="tag">{{ ucfirst($ruta->dificultad) }}</span>
+                @if ($ruta->destacada)
+                    <span class="tag">Destacada</span>
+                @endif
             </div>
-            @can('update', $ruta)
-                <div class="actions">
+
+            <h1>{{ $ruta->titulo }}</h1>
+            <p>{{ $ruta->descripcion }}</p>
+
+            <div class="stats">
+                <span class="stat">
+                    <x-icon name="map-pin" class="icon icon-sm" />
+                    {{ $ruta->region->nombre }}
+                </span>
+                <span class="stat">
+                    <x-icon name="clock" class="icon icon-sm" />
+                    {{ $ruta->duracion_min }} min
+                </span>
+                <span class="stat">
+                    <x-icon name="route" class="icon icon-sm" />
+                    {{ $ruta->distancia_km }} km
+                </span>
+                @if ($ruta->reviews->count())
+                    <span class="stat">
+                        <x-icon name="star" class="icon icon-sm" style="fill: currentColor;" />
+                        {{ number_format($ruta->reviews->avg('puntuacion'), 1) }} ({{ $ruta->reviews->count() }})
+                    </span>
+                @endif
+            </div>
+
+            <div class="actions">
+                @auth
+                    @php $esFavorita = $ruta->favoritadaPor()->whereKey(auth()->id())->exists(); @endphp
+                    <form method="POST" action="{{ route('favoritos.ruta', $ruta) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-secondary">
+                            {{ $esFavorita ? '★ Quitar de favoritos' : '☆ Añadir a favoritos' }}
+                        </button>
+                    </form>
+                @endauth
+                @can('update', $ruta)
                     <a href="{{ route('rutas.edit', $ruta) }}" class="btn btn-secondary">Editar</a>
                     <form method="POST" action="{{ route('rutas.destroy', $ruta) }}" onsubmit="return confirm('¿Seguro que quieres eliminar esta ruta?');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-secondary">Eliminar</button>
                     </form>
-                </div>
-            @endcan
-        </header>
+                @endcan
+            </div>
+        </div>
+    </section>
+@endsection
 
-        @auth
-            @php $esFavorita = $ruta->favoritadaPor()->whereKey(auth()->id())->exists(); @endphp
-            <form method="POST" action="{{ route('favoritos.ruta', $ruta) }}" class="favorito-form">
-                @csrf
-                <button type="submit" class="btn btn-secondary">
-                    {{ $esFavorita ? '★ Quitar de favoritos' : '☆ Añadir a favoritos' }}
-                </button>
-            </form>
-        @endauth
-
-        @if ($ruta->imagen_path)
-            <img src="{{ Storage::url($ruta->imagen_path) }}" alt="{{ $ruta->titulo }}" class="entity-image">
-        @endif
-
-        <section class="entity-section">
-            <h2>Sobre esta ruta</h2>
-            <p>{{ $ruta->descripcion }}</p>
-            <div class="prose">{!! nl2br(e($ruta->descripcion_larga)) !!}</div>
-        </section>
-
-        <section class="entity-section">
-            <h2>Datos prácticos</h2>
-            <dl class="data-list">
-                <dt>Distancia</dt><dd>{{ $ruta->distancia_km }} km</dd>
-                <dt>Duración</dt><dd>{{ $ruta->duracion_min }} min</dd>
-                <dt>Punto de inicio</dt><dd>{{ $ruta->punto_inicio }}</dd>
-                <dt>Punto final</dt><dd>{{ $ruta->punto_fin }}</dd>
-                @if ($ruta->mejor_epoca)
-                    <dt>Mejor época</dt><dd>{{ $ruta->mejor_epoca }}</dd>
+@section('content')
+    <div class="container detail-page">
+        <div class="detail-grid">
+            <article class="detail-main">
+                @if ($ruta->imagen_path)
+                    <img src="{{ Storage::url($ruta->imagen_path) }}" alt="{{ $ruta->titulo }}" class="entity-image">
                 @endif
-                <dt>Coordenadas inicio</dt><dd>{{ $ruta->lat_inicio }}, {{ $ruta->lng_inicio }}</dd>
-            </dl>
-        </section>
 
-        <section class="entity-section">
-            <h2>Creada por</h2>
-            <p>{{ $ruta->autor->name }}</p>
-        </section>
+                <section>
+                    <h2>Sobre esta ruta</h2>
+                    <div class="prose">{!! nl2br(e($ruta->descripcion_larga)) !!}</div>
+                </section>
+            </article>
+
+            <aside class="detail-aside">
+                <div class="info-card">
+                    <h3>Información práctica</h3>
+                    <dl class="data-list">
+                        <dt>Punto de inicio</dt>
+                        <dd>{{ $ruta->punto_inicio }}</dd>
+                        <dt>Punto final</dt>
+                        <dd>{{ $ruta->punto_fin }}</dd>
+                        @if ($ruta->mejor_epoca)
+                            <dt>Mejor época</dt>
+                            <dd>{{ $ruta->mejor_epoca }}</dd>
+                        @endif
+                        <dt>Coordenadas inicio</dt>
+                        <dd>{{ $ruta->lat_inicio }}, {{ $ruta->lng_inicio }}</dd>
+                    </dl>
+                </div>
+
+                <div class="info-card">
+                    <h3>Creada por</h3>
+                    <p>{{ $ruta->autor->name }}</p>
+                </div>
+            </aside>
+        </div>
 
         @php
             $reviews = $ruta->reviews;
@@ -68,7 +112,7 @@
             $miReview = auth()->check() ? $reviews->firstWhere('user_id', auth()->id()) : null;
         @endphp
 
-        <section class="entity-section reviews">
+        <section class="entity-section reviews" style="margin-top: var(--space-10);">
             <h2>
                 Reseñas
                 @if ($reviews->count())
@@ -97,7 +141,7 @@
                 @endif
             @else
                 <p class="text-muted">
-                    <a href="{{ route('login') }}">Inicia sesión</a> para dejar una reseña.
+                    <a href="{{ route('login') }}" style="text-decoration: underline;">Inicia sesión</a> para dejar una reseña.
                 </p>
             @endauth
 
@@ -124,5 +168,5 @@
                 </ul>
             @endif
         </section>
-    </article>
+    </div>
 @endsection
