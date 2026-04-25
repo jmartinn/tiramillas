@@ -122,28 +122,30 @@
                 @endif
             </h2>
 
-            @auth
-                @if (! $miReview)
-                    <form method="POST" action="{{ route('reviews.store', $ruta) }}" class="review-form">
-                        @csrf
-                        <div class="form-group">
-                            <label for="puntuacion">Puntuación (1-5)</label>
-                            <input id="puntuacion" name="puntuacion" type="number" min="1" max="5" required value="{{ old('puntuacion', 5) }}">
-                            @error('puntuacion') <p class="error-message">{{ $message }}</p> @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="cuerpo">Tu opinión</label>
-                            <textarea id="cuerpo" name="cuerpo" rows="4" required minlength="10" maxlength="2000">{{ old('cuerpo') }}</textarea>
-                            @error('cuerpo') <p class="error-message">{{ $message }}</p> @enderror
-                        </div>
-                        <button type="submit" class="btn btn-primary">Publicar reseña</button>
-                    </form>
-                @endif
-            @else
-                <p class="text-muted">
-                    <a href="{{ route('login') }}" style="text-decoration: underline;">Inicia sesión</a> para dejar una reseña.
-                </p>
-            @endauth
+            <div style="margin-bottom: var(--space-6);">
+                @auth
+                    @if (! $miReview)
+                        <form method="POST" action="{{ route('reviews.store', $ruta) }}" class="review-form">
+                            @csrf
+                            <div class="form-group">
+                                <label for="puntuacion">Puntuación (1-5)</label>
+                                <input id="puntuacion" name="puntuacion" type="number" min="1" max="5" required value="{{ old('puntuacion', 5) }}">
+                                @error('puntuacion') <p class="error-message">{{ $message }}</p> @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="cuerpo">Tu opinión</label>
+                                <textarea id="cuerpo" name="cuerpo" rows="4" required minlength="10" maxlength="2000">{{ old('cuerpo') }}</textarea>
+                                @error('cuerpo') <p class="error-message">{{ $message }}</p> @enderror
+                            </div>
+                            <button type="submit" class="btn btn-primary">Publicar reseña</button>
+                        </form>
+                    @endif
+                @else
+                    <p class="text-muted">
+                        <a href="{{ route('login') }}" style="text-decoration: underline;">Inicia sesión</a> para dejar una reseña.
+                    </p>
+                @endauth
+            </div>
 
             @if ($reviews->isEmpty())
                 <p class="text-muted">Aún no hay reseñas para esta ruta.</p>
