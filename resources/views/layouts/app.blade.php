@@ -13,6 +13,7 @@
             <a href="{{ url('/') }}" class="brand">Tira Millas</a>
             <div class="nav-links">
                 <a href="{{ route('rutas.index') }}">Rutas</a>
+                <a href="{{ route('puntos.index') }}">Puntos</a>
             </div>
             <div class="nav-actions">
                 @auth

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PuntoController;
 use App\Http\Controllers\RutaController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,11 @@ Route::resource('rutas', RutaController::class)
     ->middleware('auth');
 
 Route::resource('rutas', RutaController::class)
+    ->only(['index', 'show']);
+
+Route::resource('puntos', PuntoController::class)
+    ->except(['index', 'show'])
+    ->middleware('auth');
+
+Route::resource('puntos', PuntoController::class)
     ->only(['index', 'show']);
