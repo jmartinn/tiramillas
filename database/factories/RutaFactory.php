@@ -24,7 +24,7 @@ class RutaFactory extends Factory
         $titulo = "$tipo de $lugar";
 
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::query()->inRandomOrder()->value('id') ?? User::factory(),
             'region_id' => Region::query()->inRandomOrder()->value('id'),
             'titulo' => $titulo,
             'slug' => Str::slug($titulo).'-'.fake()->unique()->numerify('####'),

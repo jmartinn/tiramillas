@@ -20,7 +20,7 @@ class NegocioFactory extends Factory
         $nombre = "$tipo $apellido";
 
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::query()->inRandomOrder()->value('id') ?? User::factory(),
             'region_id' => Region::query()->inRandomOrder()->value('id'),
             'nombre' => $nombre,
             'slug' => Str::slug($nombre).'-'.fake()->unique()->numerify('####'),
