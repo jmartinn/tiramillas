@@ -1416,6 +1416,39 @@ input[type="checkbox"] {
     color: var(--accent);
 }
 
+/* Error page */
+.error-page {
+    text-align: center;
+    padding: var(--space-12) var(--space-5);
+    max-width: 36rem;
+    margin: 0 auto;
+}
+
+.error-code {
+    font-family: var(--font-serif);
+    font-size: clamp(5rem, 12vw, 8rem);
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: var(--space-4);
+}
+
+.error-page h1 {
+    margin-bottom: var(--space-3);
+}
+
+.error-page p {
+    margin-bottom: var(--space-6);
+    line-height: 1.6;
+}
+
+.error-actions {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 /* Mapa */
 .mapa-leyenda {
     display: flex;
