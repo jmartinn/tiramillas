@@ -14,6 +14,7 @@
             <div class="nav-links">
                 <a href="{{ route('rutas.index') }}">Rutas</a>
                 <a href="{{ route('puntos.index') }}">Puntos</a>
+                <a href="{{ route('negocios.index') }}">Negocios</a>
             </div>
             <div class="nav-actions">
                 @auth

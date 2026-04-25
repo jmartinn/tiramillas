@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NegocioController;
 use App\Http\Controllers\PuntoController;
 use App\Http\Controllers\RutaController;
 use Illuminate\Support\Facades\Route;
@@ -33,4 +34,13 @@ Route::resource('puntos', PuntoController::class)
     ->middleware('auth');
 
 Route::resource('puntos', PuntoController::class)
+    ->only(['index', 'show']);
+
+Route::get('/negocios/sumate', [NegocioController::class, 'sumate'])->name('negocios.sumate');
+
+Route::resource('negocios', NegocioController::class)
+    ->except(['index', 'show'])
+    ->middleware('auth');
+
+Route::resource('negocios', NegocioController::class)
     ->only(['index', 'show']);
