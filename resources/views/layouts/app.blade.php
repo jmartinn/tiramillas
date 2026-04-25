@@ -11,6 +11,9 @@
     <header class="site-header">
         <nav>
             <a href="{{ url('/') }}" class="brand">Tira Millas</a>
+            <div class="nav-links">
+                <a href="{{ route('rutas.index') }}">Rutas</a>
+            </div>
             <div class="nav-actions">
                 @auth
                     <span class="greeting">Hola, {{ Auth::user()->name }}</span>

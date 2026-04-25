@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RutaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,3 +19,10 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
+
+Route::resource('rutas', RutaController::class)
+    ->except(['index', 'show'])
+    ->middleware('auth');
+
+Route::resource('rutas', RutaController::class)
+    ->only(['index', 'show']);
