@@ -7,34 +7,28 @@
     <title>@yield('titulo', 'Tira Millas') · Tira Millas</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-gray-50 text-gray-900">
-    <header class="border-b border-gray-200 bg-white">
-        <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-            <a href="{{ url('/') }}" class="text-lg font-semibold">Tira Millas</a>
-            <div class="flex items-center gap-4 text-sm">
+<body>
+    <header class="site-header">
+        <nav>
+            <a href="{{ url('/') }}" class="brand">Tira Millas</a>
+            <div class="nav-actions">
                 @auth
-                    <span class="text-gray-600">Hola, {{ Auth::user()->name }}</span>
+                    <span class="greeting">Hola, {{ Auth::user()->name }}</span>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="rounded bg-gray-900 px-3 py-1.5 text-white hover:bg-gray-700">
-                            Cerrar sesión
-                        </button>
+                        <button type="submit" class="btn btn-primary">Cerrar sesión</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="hover:text-gray-700">Iniciar sesión</a>
-                    <a href="{{ route('register') }}" class="rounded bg-gray-900 px-3 py-1.5 text-white hover:bg-gray-700">
-                        Registrarse
-                    </a>
+                    <a href="{{ route('login') }}">Iniciar sesión</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary">Registrarse</a>
                 @endauth
             </div>
         </nav>
     </header>
 
-    <main class="mx-auto max-w-5xl px-6 py-10">
+    <main class="container main">
         @if (session('estado'))
-            <div class="mb-6 rounded border border-green-200 bg-green-50 p-3 text-sm text-green-800">
-                {{ session('estado') }}
-            </div>
+            <div class="alert alert-success">{{ session('estado') }}</div>
         @endif
 
         @yield('content')
