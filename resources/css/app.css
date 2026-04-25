@@ -82,6 +82,12 @@ body {
     background-color: var(--background);
     min-height: 100vh;
     padding-top: var(--header-height);
+    display: flex;
+    flex-direction: column;
+}
+
+body > main {
+    flex: 1;
 }
 
 h1, h2, h3, h4 {
@@ -129,7 +135,7 @@ small {
     right: 0;
     z-index: 50;
     height: var(--header-height);
-    background-color: color-mix(in oklch, var(--background) 80%, transparent);
+    background-color: color-mix(in oklch, var(--background) 96%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
