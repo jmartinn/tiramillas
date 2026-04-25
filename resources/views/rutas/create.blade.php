@@ -4,6 +4,7 @@
 
 @section('content')
     <div class="form-wrapper">
+        <p class="page-eyebrow">Nueva</p>
         <h1>Crear ruta</h1>
 
         <form method="POST" action="{{ route('rutas.store') }}" enctype="multipart/form-data" class="entity-form">

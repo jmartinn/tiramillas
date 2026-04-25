@@ -4,7 +4,8 @@
 
 @section('content')
     <div class="form-wrapper">
-        <h1>Editar negocio</h1>
+        <p class="page-eyebrow">Editar</p>
+        <h1>{{ $negocio->nombre }}</h1>
 
         <form method="POST" action="{{ route('negocios.update', $negocio) }}" enctype="multipart/form-data" class="entity-form">
             @method('PATCH')

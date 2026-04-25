@@ -4,6 +4,7 @@
 
 @section('content')
     <div class="auth-form-wrapper">
+        <p class="page-eyebrow">Únete a la comunidad</p>
         <h1>Crear cuenta</h1>
 
         <form class="auth-form" method="POST" action="{{ route('register') }}">

@@ -4,6 +4,7 @@
 
 @section('content')
     <div class="form-wrapper">
+        <p class="page-eyebrow">Nuevo</p>
         <h1>Registrar mi negocio</h1>
 
         <form method="POST" action="{{ route('negocios.store') }}" enctype="multipart/form-data" class="entity-form">

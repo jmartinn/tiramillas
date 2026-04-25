@@ -4,6 +4,7 @@
 
 @section('content')
     <div class="auth-form-wrapper">
+        <p class="page-eyebrow">Bienvenida de nuevo</p>
         <h1>Iniciar sesión</h1>
 
         <form class="auth-form" method="POST" action="{{ route('login') }}">
