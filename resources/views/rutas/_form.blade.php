@@ -83,6 +83,8 @@
     </div>
 </div>
 
+<x-map-selector lat-field="lat_inicio" lng-field="lng_inicio" />
+
 <div class="form-group">
     <label for="punto_inicio">Punto de inicio</label>
     <input id="punto_inicio" name="punto_inicio" type="text" required value="{{ old('punto_inicio', $ruta->punto_inicio ?? '') }}">

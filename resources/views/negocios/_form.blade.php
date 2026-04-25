@@ -57,6 +57,8 @@
     </div>
 </div>
 
+<x-map-selector lat-field="lat" lng-field="lng" />
+
 <div class="form-group">
     <label for="telefono">Teléfono (opcional)</label>
     <input id="telefono" name="telefono" type="tel" value="{{ old('telefono', $negocio->telefono ?? '') }}">

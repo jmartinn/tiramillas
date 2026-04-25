@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     activarContadorCaracteres();
     activarValoracionEstrellas();
     activarMapaPrincipal();
+    activarMapaSelector();
 });
 
 /**
@@ -92,6 +93,48 @@ function activarValoracionEstrellas() {
     // Ocultar el input numérico, mantenerlo accesible para el envío del formulario.
     input.type = 'hidden';
     input.insertAdjacentElement('beforebegin', widget);
+}
+
+/**
+ * Permite fijar coordenadas haciendo clic en un mapa pequeño embebido en
+ * los formularios de creación/edición de rutas, puntos y negocios.
+ */
+function activarMapaSelector() {
+    const contenedores = document.querySelectorAll('[data-mapa-selector]');
+    if (!contenedores.length || typeof L === 'undefined') return;
+
+    contenedores.forEach((contenedor) => {
+        const latInput = document.querySelector(contenedor.dataset.latField);
+        const lngInput = document.querySelector(contenedor.dataset.lngField);
+        if (!latInput || !lngInput) return;
+
+        const latInicial = parseFloat(latInput.value) || 40.0;
+        const lngInicial = parseFloat(lngInput.value) || -3.5;
+        const zoomInicial = latInput.value && lngInput.value ? 11 : 6;
+
+        const mapa = L.map(contenedor).setView([latInicial, lngInicial], zoomInicial);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap',
+        }).addTo(mapa);
+
+        let marker = null;
+        if (latInput.value && lngInput.value) {
+            marker = L.marker([latInicial, lngInicial]).addTo(mapa);
+        }
+
+        mapa.on('click', (event) => {
+            const { lat, lng } = event.latlng;
+            latInput.value = lat.toFixed(7);
+            lngInput.value = lng.toFixed(7);
+
+            if (marker) {
+                marker.setLatLng([lat, lng]);
+            } else {
+                marker = L.marker([lat, lng]).addTo(mapa);
+            }
+        });
+    });
 }
 
 /**

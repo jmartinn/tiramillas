@@ -51,6 +51,8 @@
     </div>
 </div>
 
+<x-map-selector lat-field="lat" lng-field="lng" />
+
 <div class="form-group">
     <label for="imagen">Imagen (opcional, máx. 2 MB)</label>
     <input id="imagen" name="imagen" type="file" accept="image/*">
