@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=dm-sans:400,500,600,700|playfair-display:500,600,700" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('head')
 </head>
 <body>
     <header class="site-header">
@@ -21,6 +22,7 @@
                 <a href="{{ route('rutas.index') }}" @if(request()->routeIs('rutas.*')) class="active" @endif>Rutas</a>
                 <a href="{{ route('puntos.index') }}" @if(request()->routeIs('puntos.*')) class="active" @endif>Puntos de interés</a>
                 <a href="{{ route('negocios.index') }}" @if(request()->routeIs('negocios.*')) class="active" @endif>Negocios</a>
+                <a href="{{ route('mapa') }}" @if(request()->routeIs('mapa')) class="active" @endif>Mapa</a>
             </nav>
 
             <div class="nav-actions">
@@ -112,5 +114,7 @@
             </div>
         </div>
     </footer>
+
+    @stack('scripts')
 </body>
 </html>

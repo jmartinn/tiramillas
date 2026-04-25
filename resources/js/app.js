@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     activarVistaPreviaImagen();
     activarContadorCaracteres();
     activarValoracionEstrellas();
+    activarMapaPrincipal();
 });
 
 /**
@@ -91,5 +92,64 @@ function activarValoracionEstrellas() {
     // Ocultar el input numérico, mantenerlo accesible para el envío del formulario.
     input.type = 'hidden';
     input.insertAdjacentElement('beforebegin', widget);
+}
+
+/**
+ * Inicializa el mapa principal en /mapa con los marcadores de rutas,
+ * puntos y negocios obtenidos del endpoint JSON.
+ */
+function activarMapaPrincipal() {
+    const contenedor = document.querySelector('#mapa-principal');
+    if (!contenedor || typeof L === 'undefined') return;
+
+    const endpoint = contenedor.dataset.endpoint;
+    if (!endpoint) return;
+
+    const mapa = L.map(contenedor).setView([40.0, -3.5], 6);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap',
+        maxZoom: 18,
+    }).addTo(mapa);
+
+    const colores = {
+        ruta: '#2d5016',
+        punto: '#c97b3e',
+        negocio: '#3d6b3a',
+    };
+
+    fetch(endpoint, { headers: { Accept: 'application/json' } })
+        .then((res) => res.json())
+        .then((datos) => {
+            const grupo = L.featureGroup();
+
+            datos.forEach((item) => {
+                const marker = L.circleMarker([item.lat, item.lng], {
+                    radius: 8,
+                    fillColor: colores[item.tipo] ?? '#6b6b6b',
+                    color: '#ffffff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.95,
+                });
+
+                marker.bindPopup(
+                    `<strong>${item.titulo}</strong><br>` +
+                        `<span class="popup-meta">${item.tipo} · ${item.categoria}</span><br>` +
+                        `<a href="${item.url}">Ver detalle</a>`,
+                );
+
+                marker.addTo(grupo);
+            });
+
+            grupo.addTo(mapa);
+
+            if (datos.length > 0) {
+                mapa.fitBounds(grupo.getBounds(), { padding: [40, 40], maxZoom: 10 });
+            }
+        })
+        .catch((error) => {
+            console.error('No se pudieron cargar los datos del mapa', error);
+        });
 }
 

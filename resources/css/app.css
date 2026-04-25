@@ -1416,6 +1416,52 @@ input[type="checkbox"] {
     color: var(--accent);
 }
 
+/* Mapa */
+.mapa-leyenda {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    margin-bottom: var(--space-4);
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}
+
+.leyenda-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.leyenda-punto {
+    display: inline-block;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--card);
+    box-shadow: 0 0 0 1px var(--border);
+}
+
+#mapa-principal {
+    width: 100%;
+    height: 32rem;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    z-index: 0;
+}
+
+@media (min-width: 1024px) {
+    #mapa-principal {
+        height: 38rem;
+    }
+}
+
+.popup-meta {
+    color: var(--muted-foreground);
+    font-size: 0.8125rem;
+    text-transform: capitalize;
+}
+
 /* Icon (inline SVG sized via class) */
 .icon {
     display: inline-block;

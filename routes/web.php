@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MapaController;
 use App\Http\Controllers\NegocioController;
 use App\Http\Controllers\PuntoController;
 use App\Http\Controllers\ReviewController;
@@ -45,6 +46,9 @@ Route::resource('negocios', NegocioController::class)
 
 Route::resource('negocios', NegocioController::class)
     ->only(['index', 'show']);
+
+Route::get('/mapa', [MapaController::class, 'index'])->name('mapa');
+Route::get('/api/mapa/datos', [MapaController::class, 'datos'])->name('mapa.datos');
 
 Route::middleware('auth')->group(function () {
     Route::post('/rutas/{ruta}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
