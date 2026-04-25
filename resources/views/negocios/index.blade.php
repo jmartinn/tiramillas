@@ -4,7 +4,10 @@
 
 @section('content')
     <div class="page-header">
-        <h1>Negocios locales</h1>
+        <div>
+            <p class="page-eyebrow">Apoya lo local</p>
+            <h1>Negocios locales</h1>
+        </div>
         <div class="actions">
             <a href="{{ route('negocios.sumate') }}" class="btn btn-secondary">¿Tienes un negocio?</a>
             @auth
@@ -41,20 +44,33 @@
     @if ($negocios->isEmpty())
         <p class="text-muted">Aún no hay negocios que coincidan con los filtros.</p>
     @else
-        <ul class="card-list">
+        <div class="featured-grid">
             @foreach ($negocios as $negocio)
-                <li class="card">
-                    <a href="{{ route('negocios.show', $negocio) }}">
+                <a href="{{ route('negocios.show', $negocio) }}" class="featured-card">
+                    <div class="featured-card-image">
+                        @if ($negocio->imagen_path)
+                            <img src="{{ Storage::url($negocio->imagen_path) }}" alt="{{ $negocio->nombre }}">
+                        @else
+                            <x-icon name="map-pin" class="icon icon-xl" />
+                        @endif
+                        <div class="featured-card-tags">
+                            <span class="tag tag-primary">{{ ucfirst($negocio->categoria) }}</span>
+                            @if ($negocio->verificado)
+                                <span class="tag">Verificado</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="featured-card-body">
                         <h3>{{ $negocio->nombre }}</h3>
-                        <p class="card-meta">
-                            {{ $negocio->region->nombre }} · {{ ucfirst($negocio->categoria) }}
-                            @if ($negocio->verificado) · Verificado @endif
-                        </p>
-                        <p>{{ Str::limit($negocio->descripcion, 120) }}</p>
-                    </a>
-                </li>
+                        <p>{{ Str::limit($negocio->descripcion, 140) }}</p>
+                        <div class="featured-card-stats">
+                            <span class="text-muted">{{ $negocio->region->nombre }}</span>
+                            <span class="text-muted">Plan {{ ucfirst($negocio->plan) }}</span>
+                        </div>
+                    </div>
+                </a>
             @endforeach
-        </ul>
+        </div>
 
         {{ $negocios->links() }}
     @endif

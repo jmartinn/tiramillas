@@ -4,9 +4,14 @@
 
 @section('content')
     <div class="page-header">
-        <h1>Puntos de interés</h1>
+        <div>
+            <p class="page-eyebrow">Descubre</p>
+            <h1>Puntos de interés</h1>
+        </div>
         @auth
-            <a href="{{ route('puntos.create') }}" class="btn btn-primary">Crear punto</a>
+            <div class="actions">
+                <a href="{{ route('puntos.create') }}" class="btn btn-primary">Crear punto</a>
+            </div>
         @endauth
     </div>
 
@@ -38,19 +43,29 @@
     @if ($puntos->isEmpty())
         <p class="text-muted">Aún no hay puntos que coincidan con los filtros.</p>
     @else
-        <ul class="card-list">
+        <div class="featured-grid">
             @foreach ($puntos as $punto)
-                <li class="card">
-                    <a href="{{ route('puntos.show', $punto) }}">
+                <a href="{{ route('puntos.show', $punto) }}" class="featured-card">
+                    <div class="featured-card-image">
+                        @if ($punto->imagen_path)
+                            <img src="{{ Storage::url($punto->imagen_path) }}" alt="{{ $punto->titulo }}">
+                        @else
+                            <x-icon name="map-pin" class="icon icon-xl" />
+                        @endif
+                        <div class="featured-card-tags">
+                            <span class="tag tag-primary">{{ ucfirst($punto->categoria) }}</span>
+                        </div>
+                    </div>
+                    <div class="featured-card-body">
                         <h3>{{ $punto->titulo }}</h3>
-                        <p class="card-meta">
-                            {{ $punto->region->nombre }} · {{ ucfirst($punto->categoria) }}
-                        </p>
-                        <p>{{ Str::limit($punto->descripcion, 120) }}</p>
-                    </a>
-                </li>
+                        <p>{{ Str::limit($punto->descripcion, 140) }}</p>
+                        <div class="featured-card-stats">
+                            <span class="text-muted">{{ $punto->region->nombre }}</span>
+                        </div>
+                    </div>
+                </a>
             @endforeach
-        </ul>
+        </div>
 
         {{ $puntos->links() }}
     @endif
