@@ -40,16 +40,14 @@
 
     <main>
         @if (session('estado'))
-            <div class="main">
+            <div class="container" style="padding-top: var(--space-4);">
                 <div class="alert alert-success">{{ session('estado') }}</div>
             </div>
         @endif
 
         @hasSection('hero')
             @yield('hero')
-            <div class="main">
-                @yield('content')
-            </div>
+            @yield('content')
         @else
             <div class="main">
                 @yield('content')

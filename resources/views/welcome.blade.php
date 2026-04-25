@@ -70,7 +70,7 @@
 @endsection
 
 @section('content')
-    <section class="section section-secondary" style="margin: -5rem -1.5rem 0; padding-left: 1.5rem; padding-right: 1.5rem;">
+    <section class="section section-secondary">
         <div class="section-inner">
             <div class="section-header split">
                 <div>
