@@ -24,6 +24,16 @@
             @endcan
         </header>
 
+        @auth
+            @php $esFavorito = $negocio->favoritadoPor()->whereKey(auth()->id())->exists(); @endphp
+            <form method="POST" action="{{ route('favoritos.negocio', $negocio) }}" class="favorito-form">
+                @csrf
+                <button type="submit" class="btn btn-secondary">
+                    {{ $esFavorito ? '★ Quitar de favoritos' : '☆ Añadir a favoritos' }}
+                </button>
+            </form>
+        @endauth
+
         @if ($negocio->imagen_path)
             <img src="{{ Storage::url($negocio->imagen_path) }}" alt="{{ $negocio->nombre }}" class="entity-image">
         @endif

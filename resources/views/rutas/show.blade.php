@@ -23,6 +23,16 @@
             @endcan
         </header>
 
+        @auth
+            @php $esFavorita = $ruta->favoritadaPor()->whereKey(auth()->id())->exists(); @endphp
+            <form method="POST" action="{{ route('favoritos.ruta', $ruta) }}" class="favorito-form">
+                @csrf
+                <button type="submit" class="btn btn-secondary">
+                    {{ $esFavorita ? '★ Quitar de favoritos' : '☆ Añadir a favoritos' }}
+                </button>
+            </form>
+        @endauth
+
         @if ($ruta->imagen_path)
             <img src="{{ Storage::url($ruta->imagen_path) }}" alt="{{ $ruta->titulo }}" class="entity-image">
         @endif
@@ -50,6 +60,69 @@
         <section class="entity-section">
             <h2>Creada por</h2>
             <p>{{ $ruta->autor->name }}</p>
+        </section>
+
+        @php
+            $reviews = $ruta->reviews;
+            $promedio = $reviews->avg('puntuacion');
+            $miReview = auth()->check() ? $reviews->firstWhere('user_id', auth()->id()) : null;
+        @endphp
+
+        <section class="entity-section reviews">
+            <h2>
+                Reseñas
+                @if ($reviews->count())
+                    <small class="text-muted">
+                        · {{ number_format($promedio, 1) }} de 5 ({{ $reviews->count() }})
+                    </small>
+                @endif
+            </h2>
+
+            @auth
+                @if (! $miReview)
+                    <form method="POST" action="{{ route('reviews.store', $ruta) }}" class="review-form">
+                        @csrf
+                        <div class="form-group">
+                            <label for="puntuacion">Puntuación (1-5)</label>
+                            <input id="puntuacion" name="puntuacion" type="number" min="1" max="5" required value="{{ old('puntuacion', 5) }}">
+                            @error('puntuacion') <p class="error-message">{{ $message }}</p> @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="cuerpo">Tu opinión</label>
+                            <textarea id="cuerpo" name="cuerpo" rows="4" required minlength="10" maxlength="2000">{{ old('cuerpo') }}</textarea>
+                            @error('cuerpo') <p class="error-message">{{ $message }}</p> @enderror
+                        </div>
+                        <button type="submit" class="btn btn-primary">Publicar reseña</button>
+                    </form>
+                @endif
+            @else
+                <p class="text-muted">
+                    <a href="{{ route('login') }}">Inicia sesión</a> para dejar una reseña.
+                </p>
+            @endauth
+
+            @if ($reviews->isEmpty())
+                <p class="text-muted">Aún no hay reseñas para esta ruta.</p>
+            @else
+                <ul class="review-list">
+                    @foreach ($reviews as $review)
+                        <li class="review">
+                            <div class="review-meta">
+                                <strong>{{ $review->autor->name }}</strong>
+                                <span class="text-muted">· {{ $review->puntuacion }} / 5 · {{ $review->created_at->diffForHumans() }}</span>
+                            </div>
+                            <p>{{ $review->cuerpo }}</p>
+                            @can('delete', $review)
+                                <form method="POST" action="{{ route('reviews.destroy', $review) }}" onsubmit="return confirm('¿Eliminar tu reseña?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-secondary">Eliminar</button>
+                                </form>
+                            @endcan
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         </section>
     </article>
 @endsection

@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\NegocioController;
 use App\Http\Controllers\PuntoController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RutaController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,3 +46,12 @@ Route::resource('negocios', NegocioController::class)
 
 Route::resource('negocios', NegocioController::class)
     ->only(['index', 'show']);
+
+Route::middleware('auth')->group(function () {
+    Route::post('/rutas/{ruta}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
+    Route::post('/rutas/{ruta}/favorito', [FavoritoController::class, 'ruta'])->name('favoritos.ruta');
+    Route::post('/puntos/{punto}/favorito', [FavoritoController::class, 'punto'])->name('favoritos.punto');
+    Route::post('/negocios/{negocio}/favorito', [FavoritoController::class, 'negocio'])->name('favoritos.negocio');
+});
