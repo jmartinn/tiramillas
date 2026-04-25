@@ -16,9 +16,9 @@
     </div>
 
     <form method="GET" action="{{ route('rutas.index') }}" class="filters">
-        <label>
-            Región
-            <select name="region" onchange="this.form.submit()">
+        <div class="filter-chip">
+            <label for="filter-region">Región</label>
+            <select id="filter-region" name="region" onchange="this.form.submit()">
                 <option value="">Todas</option>
                 @foreach ($regiones as $region)
                     <option value="{{ $region->slug }}" @selected($filtros['region'] === $region->slug)>
@@ -26,10 +26,10 @@
                     </option>
                 @endforeach
             </select>
-        </label>
-        <label>
-            Categoría
-            <select name="categoria" onchange="this.form.submit()">
+        </div>
+        <div class="filter-chip">
+            <label for="filter-categoria">Categoría</label>
+            <select id="filter-categoria" name="categoria" onchange="this.form.submit()">
                 <option value="">Todas</option>
                 @foreach (['naturaleza', 'cultura', 'gastronomia', 'patrimonio'] as $cat)
                     <option value="{{ $cat }}" @selected($filtros['categoria'] === $cat)>
@@ -37,7 +37,7 @@
                     </option>
                 @endforeach
             </select>
-        </label>
+        </div>
     </form>
 
     @if ($rutas->isEmpty())
