@@ -22,15 +22,18 @@ class PuntoFactory extends Factory
         ]);
         $titulo = "$tipo de $lugar";
 
+        $region = Region::query()->inRandomOrder()->first();
+        [$lat, $lng] = CoordenadasEspana::aleatorioEnRegion($region->slug);
+
         return [
             'user_id' => User::query()->inRandomOrder()->value('id') ?? User::factory(),
-            'region_id' => Region::query()->inRandomOrder()->value('id'),
+            'region_id' => $region->id,
             'titulo' => $titulo,
             'slug' => Str::slug($titulo).'-'.fake()->unique()->numerify('####'),
             'descripcion' => fake()->paragraph(4),
             'categoria' => fake()->randomElement(['monumento', 'mirador', 'museo', 'gastronomia', 'naturaleza', 'otro']),
-            'lat' => fake()->randomFloat(7, 36.0, 43.5),
-            'lng' => fake()->randomFloat(7, -8.5, 3.0),
+            'lat' => $lat,
+            'lng' => $lng,
             'imagen_path' => null,
         ];
     }

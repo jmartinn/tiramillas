@@ -23,9 +23,12 @@ class RutaFactory extends Factory
         ]);
         $titulo = "$tipo de $lugar";
 
+        $region = Region::query()->inRandomOrder()->first();
+        [$lat, $lng] = CoordenadasEspana::aleatorioEnRegion($region->slug);
+
         return [
             'user_id' => User::query()->inRandomOrder()->value('id') ?? User::factory(),
-            'region_id' => Region::query()->inRandomOrder()->value('id'),
+            'region_id' => $region->id,
             'titulo' => $titulo,
             'slug' => Str::slug($titulo).'-'.fake()->unique()->numerify('####'),
             'descripcion' => fake()->sentence(15),
@@ -36,8 +39,8 @@ class RutaFactory extends Factory
             'dificultad' => fake()->randomElement(['facil', 'moderada', 'exigente']),
             'distancia_km' => fake()->randomFloat(2, 1.5, 45),
             'duracion_min' => fake()->numberBetween(45, 480),
-            'lat_inicio' => fake()->randomFloat(7, 36.0, 43.5),
-            'lng_inicio' => fake()->randomFloat(7, -8.5, 3.0),
+            'lat_inicio' => $lat,
+            'lng_inicio' => $lng,
             'punto_inicio' => fake()->city(),
             'punto_fin' => fake()->city(),
             'mejor_epoca' => fake()->randomElement(['primavera', 'verano', 'otoño', 'invierno', 'todo el año']),
