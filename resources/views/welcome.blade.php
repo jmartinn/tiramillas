@@ -64,6 +64,35 @@
                         <p class="text-muted">Turismo con propósito</p>
                     </div>
                 </div>
+
+                @if ($ultimaRuta)
+                    <div class="floating-card floating-card-top-right">
+                        <span class="floating-card-icon"><x-icon name="route" /></span>
+                        <div>
+                            <p class="floating-card-title">Última ruta</p>
+                            <p class="floating-card-meta">{{ Str::limit($ultimaRuta->titulo, 24) }}</p>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="floating-card floating-card-bottom-left">
+                    <span class="floating-card-icon floating-card-icon-accent"><x-icon name="users" /></span>
+                    <div>
+                        <p class="floating-card-title">{{ $stats['usuarios'] }} viajeros</p>
+                        <p class="floating-card-meta">en la comunidad</p>
+                    </div>
+                </div>
+
+                @if ($iniciales->isNotEmpty())
+                    <div class="floating-card floating-card-bottom-right">
+                        <div class="floating-avatars">
+                            @foreach ($iniciales as $inicial)
+                                <span class="floating-avatar">{{ $inicial }}</span>
+                            @endforeach
+                        </div>
+                        <p class="floating-card-meta">Comunidad activa</p>
+                    </div>
+                @endif
             </div>
         </div>
     </section>

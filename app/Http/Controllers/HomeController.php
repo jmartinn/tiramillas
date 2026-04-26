@@ -32,9 +32,22 @@ class HomeController extends Controller
             'puntos' => Punto::count(),
         ];
 
+        $ultimaRuta = Ruta::query()
+            ->with('region')
+            ->latest()
+            ->first();
+
+        $iniciales = User::query()
+            ->inRandomOrder()
+            ->take(3)
+            ->pluck('name')
+            ->map(fn (string $nombre) => mb_strtoupper(mb_substr($nombre, 0, 1)));
+
         return view('welcome', [
             'rutasDestacadas' => $rutasDestacadas,
             'stats' => $stats,
+            'ultimaRuta' => $ultimaRuta,
+            'iniciales' => $iniciales,
         ]);
     }
 }

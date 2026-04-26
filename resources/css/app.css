@@ -853,9 +853,16 @@ input[type="checkbox"] {
 
 .hero-visual {
     position: relative;
-    aspect-ratio: 1 / 1;
+    width: 100%;
     max-width: 32rem;
+    height: 26rem;
     margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .hero-visual {
+        height: 32rem;
+    }
 }
 
 .hero-visual-circle {
@@ -902,6 +909,112 @@ input[type="checkbox"] {
     font-size: 1.5rem;
     color: var(--foreground);
     margin-bottom: var(--space-1);
+}
+
+.floating-card {
+    position: absolute;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-3) var(--space-4);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    z-index: 2;
+    white-space: nowrap;
+}
+
+.floating-card-top-right {
+    top: 1rem;
+    right: 0;
+    animation: floating-1 5s ease-in-out infinite;
+}
+
+.floating-card-bottom-left {
+    bottom: 5rem;
+    left: 0;
+    animation: floating-2 4.5s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+
+.floating-card-bottom-right {
+    bottom: 1rem;
+    right: 2rem;
+    animation: floating-3 6s ease-in-out infinite;
+    animation-delay: 1s;
+}
+
+.floating-card-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-full);
+    background-color: color-mix(in oklch, var(--primary) 15%, transparent);
+    color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.floating-card-icon-accent {
+    background-color: color-mix(in oklch, var(--accent) 18%, transparent);
+    color: var(--accent);
+}
+
+.floating-card-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--foreground);
+}
+
+.floating-card-meta {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+}
+
+.floating-avatars {
+    display: flex;
+}
+
+.floating-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-full);
+    background-color: var(--secondary);
+    border: 2px solid var(--card);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin-left: -0.5rem;
+}
+
+.floating-avatar:first-child {
+    margin-left: 0;
+}
+
+@keyframes floating-1 {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(1deg); }
+}
+
+@keyframes floating-2 {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(-1deg); }
+}
+
+@keyframes floating-3 {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(0.5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .floating-card {
+        animation: none;
+    }
 }
 
 /* Sections */
