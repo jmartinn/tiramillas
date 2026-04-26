@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['nombre', 'slug', 'codigo_iso'])]
 class Region extends Model
 {
     protected $table = 'regiones';
+
+    protected $fillable = ['nombre', 'slug', 'codigo_iso'];
 
     public function getRouteKeyName(): string
     {

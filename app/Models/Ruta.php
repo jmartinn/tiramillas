@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Database\Factories\RutaFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,16 +10,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-#[Fillable([
-    'user_id', 'region_id', 'titulo', 'slug', 'descripcion', 'descripcion_larga',
-    'categoria', 'dificultad', 'distancia_km', 'duracion_min',
-    'lat_inicio', 'lng_inicio', 'punto_inicio', 'punto_fin', 'mejor_epoca',
-    'destacada', 'imagen_path',
-])]
 class Ruta extends Model
 {
     /** @use HasFactory<RutaFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'user_id', 'region_id', 'titulo', 'slug', 'descripcion', 'descripcion_larga',
+        'categoria', 'dificultad', 'distancia_km', 'duracion_min',
+        'lat_inicio', 'lng_inicio', 'punto_inicio', 'punto_fin', 'mejor_epoca',
+        'destacada', 'imagen_path',
+    ];
 
     protected function casts(): array
     {

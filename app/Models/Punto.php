@@ -3,21 +3,21 @@
 namespace App\Models;
 
 use Database\Factories\PuntoFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-#[Fillable([
-    'user_id', 'region_id', 'titulo', 'slug', 'descripcion',
-    'categoria', 'lat', 'lng', 'imagen_path',
-])]
 class Punto extends Model
 {
     /** @use HasFactory<PuntoFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'user_id', 'region_id', 'titulo', 'slug', 'descripcion',
+        'categoria', 'lat', 'lng', 'imagen_path',
+    ];
 
     protected function casts(): array
     {

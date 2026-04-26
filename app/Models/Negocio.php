@@ -3,21 +3,21 @@
 namespace App\Models;
 
 use Database\Factories\NegocioFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-#[Fillable([
-    'user_id', 'region_id', 'nombre', 'slug', 'descripcion', 'categoria',
-    'direccion', 'lat', 'lng', 'telefono', 'email', 'sitio_web',
-    'plan', 'verificado', 'imagen_path',
-])]
 class Negocio extends Model
 {
     /** @use HasFactory<NegocioFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'user_id', 'region_id', 'nombre', 'slug', 'descripcion', 'categoria',
+        'direccion', 'lat', 'lng', 'telefono', 'email', 'sitio_web',
+        'plan', 'verificado', 'imagen_path',
+    ];
 
     protected function casts(): array
     {
