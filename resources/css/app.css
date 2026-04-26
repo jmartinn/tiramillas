@@ -688,9 +688,38 @@ input[type="checkbox"] {
 /* Pagination */
 .pagination {
     display: flex;
-    gap: var(--space-1);
+    gap: var(--space-3);
+    align-items: center;
     justify-content: center;
-    margin-top: var(--space-6);
+    margin-top: var(--space-8);
+    flex-wrap: wrap;
+}
+
+.pagination-link {
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border);
+    background-color: var(--card);
+    font-size: 0.875rem;
+    color: var(--foreground);
+    transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+}
+
+.pagination-link:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.pagination-link.is-disabled {
+    color: var(--muted-foreground);
+    background-color: transparent;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.pagination-info {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
 }
 
 /* Helpers */
