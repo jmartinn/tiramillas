@@ -21,6 +21,7 @@ class NegocioFactory extends Factory
 
         $region = Region::query()->inRandomOrder()->first();
         [$lat, $lng] = CoordenadasEspana::aleatorioEnRegion($region->slug);
+        $categoria = fake()->randomElement(['alojamiento', 'restaurante', 'artesania', 'experiencia', 'transporte', 'otro']);
 
         return [
             'user_id' => User::query()->inRandomOrder()->value('id') ?? User::factory(),
@@ -28,7 +29,7 @@ class NegocioFactory extends Factory
             'nombre' => $nombre,
             'slug' => Str::slug($nombre).'-'.fake()->unique()->numerify('####'),
             'descripcion' => fake()->paragraph(5),
-            'categoria' => fake()->randomElement(['alojamiento', 'restaurante', 'artesania', 'experiencia', 'transporte', 'otro']),
+            'categoria' => $categoria,
             'direccion' => fake()->streetAddress(),
             'lat' => $lat,
             'lng' => $lng,

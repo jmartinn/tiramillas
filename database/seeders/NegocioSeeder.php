@@ -6,6 +6,7 @@ use App\Models\Negocio;
 use App\Models\Region;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class NegocioSeeder extends Seeder
@@ -20,13 +21,24 @@ class NegocioSeeder extends Seeder
             $datos['region_id'] = $regionPorSlug[$datos['region_slug']];
             unset($datos['region_slug']);
             $datos['slug'] = Str::slug($datos['nombre']);
+            $datos['imagen_path'] = $this->copiarImagen($datos['slug']);
 
             Negocio::updateOrCreate(['slug' => $datos['slug']], $datos);
         }
+    }
 
-        Negocio::factory()
-            ->count(12)
-            ->create();
+    private function copiarImagen(string $slug): ?string
+    {
+        $origen = database_path("seeders/images/negocios/{$slug}.jpg");
+
+        if (! file_exists($origen)) {
+            return null;
+        }
+
+        $destino = "negocios/{$slug}.jpg";
+        Storage::disk('public')->put($destino, file_get_contents($origen));
+
+        return $destino;
     }
 
     /**

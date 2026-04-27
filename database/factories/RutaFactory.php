@@ -25,6 +25,7 @@ class RutaFactory extends Factory
 
         $region = Region::query()->inRandomOrder()->first();
         [$lat, $lng] = CoordenadasEspana::aleatorioEnRegion($region->slug);
+        $categoria = fake()->randomElement(['naturaleza', 'cultura', 'gastronomia', 'patrimonio']);
 
         return [
             'user_id' => User::query()->inRandomOrder()->value('id') ?? User::factory(),
@@ -35,7 +36,7 @@ class RutaFactory extends Factory
             'descripcion_larga' => collect(range(1, 3))
                 ->map(fn () => fake()->paragraph(6))
                 ->join("\n\n"),
-            'categoria' => fake()->randomElement(['naturaleza', 'cultura', 'gastronomia', 'patrimonio']),
+            'categoria' => $categoria,
             'dificultad' => fake()->randomElement(['facil', 'moderada', 'exigente']),
             'distancia_km' => fake()->randomFloat(2, 1.5, 45),
             'duracion_min' => fake()->numberBetween(45, 480),

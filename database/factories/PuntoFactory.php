@@ -24,6 +24,7 @@ class PuntoFactory extends Factory
 
         $region = Region::query()->inRandomOrder()->first();
         [$lat, $lng] = CoordenadasEspana::aleatorioEnRegion($region->slug);
+        $categoria = fake()->randomElement(['monumento', 'mirador', 'museo', 'gastronomia', 'naturaleza', 'otro']);
 
         return [
             'user_id' => User::query()->inRandomOrder()->value('id') ?? User::factory(),
@@ -31,7 +32,7 @@ class PuntoFactory extends Factory
             'titulo' => $titulo,
             'slug' => Str::slug($titulo).'-'.fake()->unique()->numerify('####'),
             'descripcion' => fake()->paragraph(4),
-            'categoria' => fake()->randomElement(['monumento', 'mirador', 'museo', 'gastronomia', 'naturaleza', 'otro']),
+            'categoria' => $categoria,
             'lat' => $lat,
             'lng' => $lng,
             'imagen_path' => null,

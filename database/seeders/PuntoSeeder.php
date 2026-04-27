@@ -6,6 +6,7 @@ use App\Models\Punto;
 use App\Models\Region;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PuntoSeeder extends Seeder
@@ -20,13 +21,24 @@ class PuntoSeeder extends Seeder
             $datos['region_id'] = $regionPorSlug[$datos['region_slug']];
             unset($datos['region_slug']);
             $datos['slug'] = Str::slug($datos['titulo']);
+            $datos['imagen_path'] = $this->copiarImagen($datos['slug']);
 
             Punto::updateOrCreate(['slug' => $datos['slug']], $datos);
         }
+    }
 
-        Punto::factory()
-            ->count(35)
-            ->create();
+    private function copiarImagen(string $slug): ?string
+    {
+        $origen = database_path("seeders/images/puntos/{$slug}.jpg");
+
+        if (! file_exists($origen)) {
+            return null;
+        }
+
+        $destino = "puntos/{$slug}.jpg";
+        Storage::disk('public')->put($destino, file_get_contents($origen));
+
+        return $destino;
     }
 
     /**
