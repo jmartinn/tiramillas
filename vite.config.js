@@ -8,22 +8,12 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    server: {
-        watch: {
-            ignored: ['**/storage/framework/views/**'],
-        },
+    build: {
+        outDir: 'public/build',
+        manifest: true,
+        emptyOutDir: true,
     },
     base: process.env.NODE_ENV === 'production'
         ? (process.env.APP_URL || '/').replace(/\/$/, '') + '/'
         : '/',
-    
-    build: {
-        manifest: true,
-        outDir: 'public/build',
-        rollupOptions: {
-            output: {
-                manualChunks: undefined,
-            },
-        },
-    },
 });
