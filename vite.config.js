@@ -13,4 +13,17 @@ export default defineConfig({
             ignored: ['**/storage/framework/views/**'],
         },
     },
+    base: process.env.NODE_ENV === 'production'
+        ? (process.env.APP_URL || '/').replace(/\/$/, '') + '/'
+        : '/',
+    
+    build: {
+        manifest: true,
+        outDir: 'public/build',
+        rollupOptions: {
+            output: {
+                manualChunks: undefined,
+            },
+        },
+    },
 });
